@@ -1,8 +1,18 @@
 # Kitchen::Transport::Speedy
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/kitchen/transport/speedy`. To experiment with that code, run `bin/console` for an interactive prompt.
+This gem is transport plugin for kitchen. It signicantly improves file synchronization between workstation and boxes using archive transfer instead of individual transfers.
 
-TODO: Delete this and the text above, and describe your gem
+The transport only works where ssh works and requires `tar` to be present both on the workstation and in the box.
+
+## Timing
+
+On my workstation, on a already created linux box, from "kitchen converge" to the beginning of chef-client converges:
+- with speedy\_ssh transport: 10 secs
+- without speedy transport: 180 secs
+
+Please note that cookbooks + roles + environments + databags represent around 5.5k files to transfer.
+
+Tested with test-kitchen 1.8
 
 ## Installation
 
@@ -22,15 +32,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Modify your `.kitchen.yml` to include:
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```
+transport:
+  name: speedy_ssh
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/kitchen-transport-speedy.
+Bug reports and pull requests are welcome on GitHub at https://github.com/criteo/kitchen-transport-speedy.
 
