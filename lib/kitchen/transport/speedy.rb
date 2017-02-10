@@ -52,6 +52,7 @@ module Kitchen
             archive_basename = ::File.basename(local) + '.tar'
             archive = ::File.join(::File.dirname(local), archive_basename)
             Mixlib::ShellOut.new(archive_locally(local, archive)).run_command.error!
+            execute(ensure_remotedir_exists(remote))
 
             logger.debug("Calling regular upload for #{archive} to #{remote}")
             super(archive, remote)
