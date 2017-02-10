@@ -30,6 +30,10 @@ module Kitchen
           end
         end
 
+        def ensure_remotedir_exists(remote)
+          "mkdir -p #{remote}"
+        end
+
         def archive_locally(path, archive_path)
           "tar -cf #{archive_path} -C #{::File.dirname(path)} #{::File.basename(path)}"
         end
