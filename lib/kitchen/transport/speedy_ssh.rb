@@ -8,6 +8,16 @@ module Kitchen
       kitchen_transport_api_version 1
       plugin_version SpeedyModule::VERSION
 
+      def finalize_config!(instance)
+        super.tap do
+          if defined?(Kitchen::Verifier::Inspec) && instance.verifier.is_a?(Kitchen::Verifier::Inspec)
+            instance.verifier.send(:define_singleton_method, :runner_options_for_speedyssh) do |config_data|
+              runner_options_for_ssh(config_data)
+            end
+          end
+        end
+      end
+
       def log_prefix
         "SSH"
       end
