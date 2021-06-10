@@ -29,11 +29,13 @@ module Kitchen
 
         def valid_local_requirements?
           !Mixlib::ShellOut.new("which tar > /dev/null").run_command.error?
+          !Mixlib::ShellOut.new("which gzip > /dev/null").run_command.error?
         end
 
         def valid_remote_requirements?
           begin
             execute("which tar > /dev/null")
+            execute("which gzip > /dev/null")
             true
           rescue => e
             logger.debug(e)
@@ -45,11 +47,11 @@ module Kitchen
         end
 
         def archive_locally(path, archive_path)
-          "tar -cf #{archive_path} -C #{::File.dirname(path)} #{::File.basename(path)}"
+          "tar -czf #{archive_path} -C #{::File.dirname(path)} #{::File.basename(path)}"
         end
 
         def dearchive_remotely(archive_basename, remote)
-          "tar -xf #{::File.join(remote, archive_basename)} -C #{remote}"
+          "tar -xzf #{::File.join(remote, archive_basename)} -C #{remote}"
         end
       end
 
