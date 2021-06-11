@@ -28,14 +28,12 @@ module Kitchen
         include SpeedyConnectionBase
 
         def valid_local_requirements?
-          !Mixlib::ShellOut.new("which tar > /dev/null").run_command.error?
-          !Mixlib::ShellOut.new("which gzip > /dev/null").run_command.error?
+          !Mixlib::ShellOut.new("which tar && which gzip > /dev/null").run_command.error?
         end
 
         def valid_remote_requirements?
           begin
-            execute("which tar > /dev/null")
-            execute("which gzip > /dev/null")
+            execute("which tar && which gzip > /dev/null")
             true
           rescue => e
             logger.debug(e)
