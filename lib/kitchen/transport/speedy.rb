@@ -49,7 +49,7 @@ module Kitchen
           if ::File.directory?(local)
             file_count = ::Dir.glob(::File.join(local, '**/*')).size
             logger.debug("#{local} contains #{file_count}")
-            archive_basename = ::File.basename(local) + '.tar'
+            archive_basename = ::File.basename(local) + '.tgz'
             archive = ::File.join(::File.dirname(local), archive_basename)
             Mixlib::ShellOut.new(archive_locally(local, archive)).run_command.error!
             execute(ensure_remotedir_exists(remote))
